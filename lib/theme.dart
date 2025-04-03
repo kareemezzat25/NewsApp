@@ -7,6 +7,7 @@ class MyThemeData {
   static const Color textColor = Color(0xFFA0A0A0);
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: lightColor,
+      primaryColor: lightColor,
       appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -24,6 +25,7 @@ class MyThemeData {
           bodyMedium: GoogleFonts.inter(
               fontSize: 12, fontWeight: FontWeight.w500, color: textColor)));
   static ThemeData darkTheme = ThemeData(
+      primaryColor: darkColor,
       scaffoldBackgroundColor: darkColor,
       appBarTheme: const AppBarTheme(
           centerTitle: true,
