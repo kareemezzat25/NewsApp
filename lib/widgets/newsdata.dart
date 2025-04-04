@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapp/apimanager.dart';
 import 'package:newsapp/models/newsmodel.dart';
 import 'package:newsapp/theme.dart';
+import 'package:newsapp/widgets/newsItem.dart';
 
 class NewsData extends StatelessWidget {
   String sourceId;
@@ -21,26 +21,29 @@ class NewsData extends StatelessWidget {
             );
           }
           if (snapshot.hasError) {
-            return Text(
-              "SomeThing Went Wrong",
-              style: Theme.of(context).textTheme.titleSmall,
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Center(
+                child: Text(
+                  "SomeThing Went Wrong",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
             );
           }
           var length = snapshot.data?.articles?.length ?? 0;
           if (length == 0) {
-            return Text(
-              "There is No data.",
-              style: Theme.of(context).textTheme.titleSmall,
+            return Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Text(
+                "There is No data.",
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
             );
           }
-          return ListView.separated(
+          return ListView.builder(
               itemBuilder: (context, index) {
-                return Text(snapshot.data?.articles?[index].content ?? "");
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 20.h,
-                );
+                return NewsItem(article: snapshot.data!.articles![index]);
               },
               itemCount: snapshot.data?.articles?.length ?? 0);
         });

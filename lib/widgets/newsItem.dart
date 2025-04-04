@@ -14,43 +14,53 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
               color: themeProvider.thememode == ThemeMode.dark
                   ? MyThemeData.lightColor
                   : MyThemeData.darkColor)),
-      child: Column(
-        children: [
-          Image.network(
-            article.urlToImage!,
-            width: 345.w,
-            height: 220.h,
-            fit: BoxFit.fill,
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Text(
-            article.title!,
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "By : ${article.author}",
-                style: Theme.of(context).textTheme.bodyMedium,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: Image.network(
+                article.urlToImage ??
+                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fillustrations%2Ferror&psig=AOvVaw1BrHbJAZdM1uJTZ7t0RJYA&ust=1743868143136000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJjc_p3dvowDFQAAAAAdAAAAABAE",
+                width: 345.w,
+                height: 220.h,
+                fit: BoxFit.fill,
               ),
-              Text(getTimeAgo(article.publishedAt!))
-            ],
-          )
-        ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Text(
+              article.title!,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    "By : ${article.author}",
+                    maxLines: 1,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+                Text(getTimeAgo(article.publishedAt!))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

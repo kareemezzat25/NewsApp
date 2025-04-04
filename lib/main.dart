@@ -1,17 +1,27 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/home.dart';
+import 'package:newsapp/models/cache.dart';
 import 'package:newsapp/providers/themeprovider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapp/theme.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Cache.init();
+  await EasyLocalization.ensureInitialized();
   runApp(ChangeNotifierProvider(
-      create: (context) => ThemeProvider(), child: NewsApp()));
+      create: (context) => ThemeProvider(),
+      child: EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          child: NewsApp())));
 }
 
 class NewsApp extends StatelessWidget {
-  NewsApp({super.key});
+  const NewsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +34,9 @@ class NewsApp extends StatelessWidget {
         // Use builder only if you need to use library outside ScreenUtilInit context
         builder: (_, child) {
           return MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             debugShowCheckedModeBanner: false,
             theme: MyThemeData.lightTheme,
             darkTheme: MyThemeData.darkTheme,

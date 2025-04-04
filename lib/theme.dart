@@ -8,6 +8,7 @@ class MyThemeData {
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: lightColor,
       primaryColor: lightColor,
+      drawerTheme: DrawerThemeData(backgroundColor: darkColor),
       appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -27,6 +28,7 @@ class MyThemeData {
   static ThemeData darkTheme = ThemeData(
       primaryColor: darkColor,
       scaffoldBackgroundColor: darkColor,
+      drawerTheme: const DrawerThemeData(backgroundColor: lightColor),
       appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.transparent,
