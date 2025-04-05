@@ -41,7 +41,10 @@ class _AppDrawerState extends State<AppDrawer> {
                     BorderRadius.only(topRight: Radius.circular(24.r))),
             child: Text(
               "news_app".tr(),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: MyThemeData.darkColor),
             ),
           ),
           SizedBox(
