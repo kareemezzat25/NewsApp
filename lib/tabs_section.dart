@@ -5,7 +5,8 @@ import 'package:newsapp/theme.dart';
 import 'package:newsapp/widgets/newsdata.dart';
 
 class TabsSection extends StatefulWidget {
-  const TabsSection({super.key});
+  String category;
+  TabsSection({required this.category, super.key});
 
   @override
   State<TabsSection> createState() => _TabsSectionState();
@@ -16,7 +17,7 @@ class _TabsSectionState extends State<TabsSection> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SourceResponse>(
-      future: ApiManager.getSources(),
+      future: ApiManager.getSources(widget.category),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(

@@ -10,5 +10,11 @@
     "light": "فاتح",
     "general": "عام",
     "home": "الرئيسية",
+    "business": "الأعمال",
+    "sports": "الرياضة",
+    "health": "الصحة",
+    "entertainment": "الترفيه",
+    "technology": "التكنولوجيا",
+    "science": "العلوم",
     "view_all":"عرض الكل"
 }

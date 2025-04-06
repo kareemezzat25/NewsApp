@@ -6,7 +6,8 @@ import 'package:newsapp/theme.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatefulWidget {
-  const AppDrawer({super.key});
+  Function onBack;
+  AppDrawer({required this.onBack, super.key});
   @override
   State<AppDrawer> createState() => _AppDrawerState();
 }
@@ -52,25 +53,30 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.home_outlined,
-                  color: MyThemeData.lightColor,
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Expanded(
-                  child: Text(
-                    "go_home".tr(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: MyThemeData.lightColor),
+            child: InkWell(
+              onTap: () {
+                widget.onBack();
+              },
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.home_outlined,
+                    color: MyThemeData.lightColor,
                   ),
-                )
-              ],
+                  SizedBox(
+                    width: 8.w,
+                  ),
+                  Expanded(
+                    child: Text(
+                      "go_home".tr(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: MyThemeData.lightColor),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           SizedBox(

@@ -42,7 +42,7 @@ class NewsApp extends StatelessWidget {
             darkTheme: MyThemeData.darkTheme,
             themeMode: themeProvider.thememode,
             initialRoute: HomeView.routeName,
-            routes: {HomeView.routeName: (context) => HomeView()},
+            routes: {HomeView.routeName: (context) => const HomeView()},
           );
         });
   }

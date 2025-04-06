@@ -10,5 +10,11 @@
     "light":"Light",
     "general":"General",
     "home":"Home",
+    "business":"Business",
+    "sports":"Sports",
+    "health":"Health",
+    "entertainment":"Entertainment",
+    "technology":"Technology",
+    "science":"Science",
     "view_all":"View All"
 }

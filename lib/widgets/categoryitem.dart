@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newsapp/providers/themeprovider.dart';
 import 'package:newsapp/theme.dart';
 import 'dart:ui' as ui;
+import 'package:provider/provider.dart';
 
 class CategoryItem extends StatelessWidget {
   String categoryImage;
@@ -11,6 +13,7 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return Stack(
       alignment: isRight ? Alignment.bottomRight : Alignment.bottomLeft,
       children: [
@@ -20,10 +23,12 @@ class CategoryItem extends StatelessWidget {
         Container(
           margin: isRight
               ? const EdgeInsets.only(bottom: 16, right: 16)
-              : EdgeInsets.only(bottom: 16, left: 16),
+              : const EdgeInsets.only(bottom: 16, left: 16),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(64.r),
-              color: const Color(0xFFFFFFFF).withOpacity(0.50)),
+              color: themeProvider.thememode == ThemeMode.dark
+                  ? const Color(0xFF000000).withOpacity(0.50)
+                  : const Color(0xFFFFFFFF).withOpacity(0.50)),
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: Row(
@@ -34,23 +39,39 @@ class CategoryItem extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             "view_all".tr(),
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                         SizedBox(
                           width: 8.w,
                         ),
-                        const CircleAvatar(
-                          backgroundColor: MyThemeData.lightColor,
+                        CircleAvatar(
+                          backgroundColor:
+                              themeProvider.thememode == ThemeMode.dark
+                                  ? MyThemeData.darkColor
+                                  : MyThemeData.lightColor,
                           radius: 30,
-                          child: Icon(Icons.arrow_forward_ios),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: themeProvider.thememode == ThemeMode.dark
+                                ? MyThemeData.lightColor
+                                : MyThemeData.darkColor,
+                          ),
                         )
                       ]
                     : [
-                        const CircleAvatar(
-                          backgroundColor: MyThemeData.lightColor,
+                        CircleAvatar(
+                          backgroundColor:
+                              themeProvider.thememode == ThemeMode.dark
+                                  ? MyThemeData.darkColor
+                                  : MyThemeData.lightColor,
                           radius: 30,
-                          child: Icon(Icons.arrow_back_ios),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: themeProvider.thememode == ThemeMode.dark
+                                ? MyThemeData.lightColor
+                                : MyThemeData.darkColor,
+                          ),
                         ),
                         SizedBox(
                           width: 8.w,
@@ -59,7 +80,7 @@ class CategoryItem extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Text(
                             "view_all".tr(),
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                       ]),

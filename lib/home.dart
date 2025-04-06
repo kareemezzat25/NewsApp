@@ -1,20 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:newsapp/apimanager.dart';
 import 'package:newsapp/categories_section.dart';
-import 'package:newsapp/models/sourcemodel.dart';
-import 'package:newsapp/providers/themeprovider.dart';
 import 'package:newsapp/tabs_section.dart';
-import 'package:newsapp/theme.dart';
 import 'package:newsapp/widgets/app_drawer.dart';
-import 'package:newsapp/widgets/newsdata.dart';
-import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   static const String routeName = "HomeView";
-
-  HomeView({super.key});
+  const HomeView({super.key});
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -22,14 +15,16 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
-
+  String? selectedCategory;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: AppDrawer(),
+        drawer: AppDrawer(
+          onBack: onBackDrawer,
+        ),
         appBar: AppBar(
           title: Text(
-            "general".tr(),
+            selectedCategory?.tr() ?? "home".tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           actions: [
@@ -41,6 +36,24 @@ class _HomeViewState extends State<HomeView> {
             )
           ],
         ),
-        body: CategoriesSection());
+        body: selectedCategory == null
+            ? CategoriesSection(
+                onCategoryClick: onCategoryClicked,
+              )
+            : TabsSection(
+                category: selectedCategory!,
+              ));
+  }
+
+  onCategoryClicked(String category) {
+    selectedCategory = category;
+    setState(() {});
+  }
+
+  onBackDrawer() {
+    selectedCategory = null;
+    setState(() {
+      Navigator.pop(context);
+    });
   }
 }

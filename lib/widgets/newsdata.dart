@@ -35,9 +35,11 @@ class NewsData extends StatelessWidget {
           if (length == 0) {
             return Padding(
               padding: const EdgeInsets.only(top: 16.0),
-              child: Text(
-                "There is No data.",
-                style: Theme.of(context).textTheme.titleSmall,
+              child: Center(
+                child: Text(
+                  "There is no data.",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ),
             );
           }
