@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapp/models/newsmodel.dart';
@@ -28,12 +29,16 @@ class NewsItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: Image.network(
-                article.urlToImage ??
+              child: CachedNetworkImage(
+                imageUrl: article.urlToImage ??
                     "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fillustrations%2Ferror&psig=AOvVaw1BrHbJAZdM1uJTZ7t0RJYA&ust=1743868143136000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJjc_p3dvowDFQAAAAAdAAAAABAE",
                 width: 345.w,
                 height: 220.h,
                 fit: BoxFit.fill,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) =>
+                    const Center(child: Icon(Icons.error)),
               ),
             ),
             SizedBox(
