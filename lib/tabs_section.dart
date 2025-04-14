@@ -1,63 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/apimanager.dart';
-import 'package:newsapp/models/sourcemodel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/bloc/cubit.dart';
+import 'package:newsapp/bloc/state.dart';
 import 'package:newsapp/theme.dart';
 import 'package:newsapp/widgets/newsdata.dart';
 
-class TabsSection extends StatefulWidget {
+class TabsSection extends StatelessWidget {
   String category;
   TabsSection({required this.category, super.key});
 
   @override
-  State<TabsSection> createState() => _TabsSectionState();
-}
-
-class _TabsSectionState extends State<TabsSection> {
-  int selectedIndex = 0;
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<SourceResponse>(
-      future: ApiManager.getSources(widget.category),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue,
-            ),
+    return BlocProvider(
+      create: (context) => HomeCubit()..getSources(category),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          var bloc = BlocProvider.of<HomeCubit>(context);
+          var sources = bloc.sourceResponse?.sources ?? [];
+          if (state is GetSourcesLoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: MyThemeData.darkColor,
+              ),
+            );
+          } else if (state is GetSourcesErrorState) {
+            return Center(
+              child: Text(
+                "SomeThing Went Wrong",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            );
+          }
+          return Column(
+            children: [
+              DefaultTabController(
+                  length: sources?.length ?? 0,
+                  initialIndex: bloc.selectedIndex,
+                  child: TabBar(
+                      isScrollable: true,
+                      dividerColor: Colors.transparent,
+                      indicatorColor: MyThemeData.darkColor,
+                      labelStyle: Theme.of(context).textTheme.titleSmall,
+                      unselectedLabelStyle:
+                          Theme.of(context).textTheme.titleSmall,
+                      onTap: (value) {
+                        bloc.changeSelectedIndexTab(value);
+                      },
+                      tabs: sources
+                          .map((source) => Tab(
+                                text: source.name,
+                              ))
+                          .toList())),
+              Expanded(child: NewsData())
+            ],
           );
-        }
-        if (snapshot.hasError) {
-          return const Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Center(child: Text("SomeThing went Wrong")),
-          );
-        }
-        var data = snapshot.data?.sources ?? [];
-        return Column(
-          children: [
-            DefaultTabController(
-                length: data.length,
-                initialIndex: selectedIndex,
-                child: TabBar(
-                    isScrollable: true,
-                    dividerColor: Colors.transparent,
-                    indicatorColor: MyThemeData.darkColor,
-                    labelStyle: Theme.of(context).textTheme.titleSmall,
-                    unselectedLabelStyle:
-                        Theme.of(context).textTheme.titleSmall,
-                    onTap: (value) {
-                      selectedIndex = value;
-                      setState(() {});
-                    },
-                    tabs: data
-                        .map((source) => Tab(
-                              text: source.name,
-                            ))
-                        .toList())),
-            Expanded(child: NewsData(sourceId: data[selectedIndex].id ?? ""))
-          ],
-        );
-      },
+        },
+      ),
     );
   }
 }
