@@ -42,6 +42,7 @@ class _HomeViewState extends State<HomeView> {
               )
             : TabsSection(
                 category: selectedCategory!,
+                onBackHome: onBackDrawer,
               ));
   }
 

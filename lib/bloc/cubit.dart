@@ -30,9 +30,13 @@ class HomeCubit extends Cubit<HomeState> {
       var json = jsonDecode(response.body);
       sourceResponse = SourceResponse.fromJson(json);
       await getNewsData();
-      emit(GetSourcesSuccessState());
+      if (sourceResponse!.status == "ok") {
+        emit(GetSourcesSuccessState());
+      } else {
+        emit(GetSourcesErrorState(messageError: sourceResponse!.message));
+      }
     } catch (e) {
-      emit(GetSourcesErrorState());
+      emit(GetSourcesErrorState(messageError: "SomeThing Went Wrong"));
     }
   }
 
@@ -47,9 +51,13 @@ class HomeCubit extends Cubit<HomeState> {
       http.Response response = await http.get(url);
       var json = jsonDecode(response.body);
       newsResponse = NewsResponse.fromJson(json);
-      emit(GetNewsSuccessState());
+      if (newsResponse!.status == "ok") {
+        emit(GetNewsSuccessState());
+      } else {
+        emit(GetNewsErrorState(messageError: newsResponse!.message));
+      }
     } catch (e) {
-      emit(GetNewsErrorState());
+      emit(GetNewsErrorState(messageError: "SomeThing Went Wrong"));
     }
   }
 }

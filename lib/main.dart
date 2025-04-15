@@ -1,5 +1,7 @@
+import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/bloc/bloc_observer.dart';
 import 'package:newsapp/home.dart';
 import 'package:newsapp/models/cache.dart';
 import 'package:newsapp/providers/themeprovider.dart';
@@ -11,6 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Cache.init();
   await EasyLocalization.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   runApp(ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
       child: EasyLocalization(
