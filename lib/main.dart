@@ -6,6 +6,7 @@ import 'package:newsapp/home.dart';
 import 'package:newsapp/models/cache.dart';
 import 'package:newsapp/providers/themeprovider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newsapp/splashview.dart';
 import 'package:newsapp/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -44,8 +45,11 @@ class NewsApp extends StatelessWidget {
             theme: MyThemeData.lightTheme,
             darkTheme: MyThemeData.darkTheme,
             themeMode: themeProvider.thememode,
-            initialRoute: HomeView.routeName,
-            routes: {HomeView.routeName: (context) => const HomeView()},
+            initialRoute: SplashView.routeName,
+            routes: {
+              HomeView.routeName: (context) => const HomeView(),
+              SplashView.routeName: (context) => SplashView()
+            },
           );
         });
   }
