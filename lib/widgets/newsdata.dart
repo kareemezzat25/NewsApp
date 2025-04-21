@@ -58,7 +58,7 @@ class NewsData extends StatelessWidget {
             ),
           );
         }
-        if (articles.isEmpty) {
+        if (articles.length == 0) {
           return Center(
             child: Text(
               "There Is no Data exist",

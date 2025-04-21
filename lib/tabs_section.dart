@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapp/bloc/cubit.dart';
 import 'package:newsapp/bloc/state.dart';
+import 'package:newsapp/repository/repo_impl.dart';
 import 'package:newsapp/theme.dart';
 import 'package:newsapp/widgets/newsdata.dart';
 
@@ -14,7 +15,8 @@ class TabsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getSources(category),
+      create: (context) =>
+          HomeCubit(repo: RepoImplimention())..getSources(category),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is GetSourcesLoadingState) {
