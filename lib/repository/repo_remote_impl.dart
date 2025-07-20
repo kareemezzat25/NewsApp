@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:newsapp/models/constants.dart';
 import 'package:newsapp/models/newsmodel.dart';
 import 'package:newsapp/models/sourcemodel.dart';
 import 'package:newsapp/repository/repo.dart';
 
-class RepoImplimention extends HomeRepo {
+class RepoRemoteImplimention extends HomeRepo {
   @override
   Future<SourceResponse> getSources(String catId) async {
     Uri url = Uri.https(Constants.baseurl, "/v2/top-headlines/sources",

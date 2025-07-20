@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/bloc/bloc_observer.dart';
 import 'package:newsapp/home.dart';
+import 'package:newsapp/internet_service.dart';
 import 'package:newsapp/models/cache.dart';
 import 'package:newsapp/providers/themeprovider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Cache.init();
   await EasyLocalization.ensureInitialized();
+  InternetService().init();
   Bloc.observer = MyBlocObserver();
   runApp(ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
@@ -21,7 +23,7 @@ void main() async {
           supportedLocales: const [Locale('en'), Locale('ar')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en'),
-          child: NewsApp())));
+          child: const NewsApp())));
 }
 
 class NewsApp extends StatelessWidget {

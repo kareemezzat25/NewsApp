@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapp/bloc/cubit.dart';
 import 'package:newsapp/bloc/state.dart';
+import 'package:newsapp/providers/themeprovider.dart';
 import 'package:newsapp/theme.dart';
 import 'package:newsapp/widgets/newsItem.dart';
+import 'package:provider/provider.dart';
 
 class NewsData extends StatelessWidget {
   Function onBackHome;
@@ -12,8 +14,25 @@ class NewsData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
+        if (state is GetNewsLoadingState) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  backgroundColor: Colors.transparent,
+                  title: Center(
+                    child: CircularProgressIndicator(
+                      color: themeProvider.thememode == ThemeMode.light
+                          ? MyThemeData.darkColor
+                          : MyThemeData.lightColor,
+                    ),
+                  ),
+                );
+              });
+        }
         if (state is GetNewsErrorState) {
           showDialog(
               context: context,
@@ -51,26 +70,12 @@ class NewsData extends StatelessWidget {
       builder: (context, state) {
         var bloc = BlocProvider.of<HomeCubit>(context);
         var articles = bloc.newsResponse?.articles ?? [];
-        if (state is GetNewsLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: MyThemeData.darkColor,
-            ),
-          );
-        }
-        if (articles.length == 0) {
-          return Center(
-            child: Text(
-              "There Is no Data exist",
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          );
-        }
+
         return ListView.builder(
             itemBuilder: (context, index) {
               return NewsItem(article: articles[index]);
             },
-            itemCount: articles.length ?? 0);
+            itemCount: articles.length);
       },
     );
   }

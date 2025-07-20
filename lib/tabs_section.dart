@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsapp/bloc/cubit.dart';
 import 'package:newsapp/bloc/state.dart';
-import 'package:newsapp/repository/repo_impl.dart';
+import 'package:newsapp/providers/themeprovider.dart';
+import 'package:newsapp/repository/repo_remote_impl.dart';
 import 'package:newsapp/theme.dart';
 import 'package:newsapp/widgets/newsdata.dart';
+import 'package:provider/provider.dart';
 
 class TabsSection extends StatelessWidget {
   String category;
@@ -14,16 +16,27 @@ class TabsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return BlocProvider(
       create: (context) =>
-          HomeCubit(repo: RepoImplimention())..getSources(category),
+          HomeCubit(repo: RepoRemoteImplimention())..getSources(category),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is GetSourcesLoadingState) {
-            const Center(
-              child: CircularProgressIndicator(
-                color: MyThemeData.darkColor,
-              ),
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  backgroundColor: Colors.transparent,
+                  title: Center(
+                    child: CircularProgressIndicator(
+                      color: themeProvider.thememode == ThemeMode.dark
+                          ? MyThemeData.lightColor
+                          : MyThemeData.darkColor,
+                    ),
+                  ),
+                );
+              },
             );
           }
           if (state is GetSourcesErrorState) {

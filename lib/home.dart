@@ -46,12 +46,12 @@ class _HomeViewState extends State<HomeView> {
               ));
   }
 
-  onCategoryClicked(String category) {
+  void onCategoryClicked(String category) {
     selectedCategory = category;
     setState(() {});
   }
 
-  onBackDrawer() {
+  void onBackDrawer() {
     selectedCategory = null;
     setState(() {
       Navigator.pop(context);
